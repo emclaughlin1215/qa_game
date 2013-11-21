@@ -55,6 +55,8 @@
             }
             $('.game').append(data);
             Drupal.run_game.enableContinue();
+            var checkbxsCheckmark = Array.prototype.slice.call( document.querySelectorAll( 'form.ac-checkmark input[type="checkbox"]' ) );
+            checkbxsCheckmark.forEach( function( el, i ) { controlCheckbox( el, 'checkmark' ); } );
           }
         });
       }
@@ -71,6 +73,8 @@
             }
             $('.game').append(data);
             Drupal.run_game.enableContinue();
+            var checkbxsCheckmark = Array.prototype.slice.call( document.querySelectorAll( 'form.ac-checkmark input[type="checkbox"]' ) );
+            checkbxsCheckmark.forEach( function( el, i ) { controlCheckbox( el, 'checkmark' ); } );
           }
         });
       }
