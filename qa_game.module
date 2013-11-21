@@ -89,7 +89,31 @@ function qa_game_level() {
   $nid = check_plain($_GET['node']);
   $level = check_plain($_GET['level']);
   $node = node_load($nid);
-  
+  $class = '';
+
+  switch($level) {
+    case 1:
+      $class = 'chrome';
+      break;
+    case 2:
+      $class = 'firefox';
+      break;
+    case 3:
+      $class = 'safari';
+      break;
+    case 4:
+      $class = 'ie10';
+      break;
+    case 5:
+      $class = 'ie9';
+      break;
+    case 6:
+      $class = 'ie8';
+      break;
+  }
+
+  print theme ('level', array('class' => $class, 'node' => $node));
+  exit();
 }
 
 /**
@@ -101,6 +125,13 @@ function qa_game_theme() {
       'template' => 'templates/game_intro',
       'variables' => array(
         'nodes' => NULL,
+      )
+    ),
+    'level' => array(
+      'template' => 'templates/level',
+      'variables' => array(
+        'class' => NULL,
+        'node' => NULL,
       )
     ),
   );
