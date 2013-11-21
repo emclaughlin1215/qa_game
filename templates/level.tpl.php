@@ -1,6 +1,6 @@
 <div class="game-play">
   <form class="ac-custom ac-checkbox ac-checkmark" autocomplete="off">
-    <h1 class="gam-level-name"><?= $class ?></h1>
+    <h1 class="gam-level-name"><?= $class . ' (' . $level . ' of 6)' ?></h1>
     <ul class="game-form">
       <?php $num = 1; ?>
       <?php foreach ($node->field_qa_game_scope_items['und'] as $item) : ?>
