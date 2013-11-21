@@ -4,6 +4,7 @@
  * Implements hook_init().
  */
 function qa_game_init() {
+  drupal_add_js(drupal_get_path('module', 'qa_game') . '/js/all.js');
 }
 
 /**
@@ -27,6 +28,12 @@ function qa_game_menu() {
       'type' => MENU_CALLBACK,
       'title' => 'QA Game',
       'page callback' => 'qa_game_choose_game',
+      'access arguments' => array('play qa game'),
+    ),
+    'level' => array(
+      'type' => MENU_CALLBACK,
+      'title' => 'Level',
+      'page callback' => 'qa_game_level',
       'access arguments' => array('play qa game'),
     ),
   );
@@ -73,6 +80,16 @@ function qa_game_choose_game() {
   }
 
   return theme('game_intro', array('nodes' => $nodes));
+}
+
+/**
+ * Helper function to return level data.
+ */
+function qa_game_level() {
+  $nid = check_plain($_GET['node']);
+  $level = check_plain($_GET['level']);
+  $node = node_load($nid);
+  
 }
 
 /**

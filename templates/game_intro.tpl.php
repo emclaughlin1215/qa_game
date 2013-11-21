@@ -6,6 +6,6 @@
         <li class="game-node" data-node="<?= $node->nid ?>"><?= $node->field_qa_game_account_code['und'][0]['value'] ?> - <?= $node->title ?></li>
       <?php endforeach; ?>
     </ul>
-    <h1 class="game-start">Start</h1>
+    <h1 class="game-start" data-level="1">Start</h1>
   </div>
 </div>
