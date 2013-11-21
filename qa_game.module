@@ -58,6 +58,10 @@ function qa_game_choose_game() {
     ->fields('pc', array('entity_id'))
     ->condition('pc.field_qa_game_princess_cs_target_id', $user->uid, '=')
     ->execute();
+  $results[] = db_select('field_data_field_qa_game_pm_ranger', 'pm')
+    ->fields('pm', array('entity_id'))
+    ->condition('pm.field_qa_game_pm_ranger_target_id', $user->uid, '=')
+    ->execute();
 
   $nodes = array();
   foreach ($results as $result) {
