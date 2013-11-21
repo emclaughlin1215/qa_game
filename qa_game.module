@@ -110,9 +110,16 @@ function qa_game_level() {
     case 6:
       $class = 'ie8';
       break;
+    default:
+      $class = 'finished';
+      break;
   }
 
-  print theme ('level', array('class' => $class, 'node' => $node));
+  if ($class == 'finished') {
+    print theme ('winner', array());
+  } else {
+    print theme ('level', array('class' => $class, 'node' => $node, 'level' => $level));
+  }
   exit();
 }
 
@@ -132,7 +139,12 @@ function qa_game_theme() {
       'variables' => array(
         'class' => NULL,
         'node' => NULL,
+        'level' => NULL,
       )
+    ),
+    'winner' => array(
+      'template' => 'templates/winner',
+      'variables' => array()
     ),
   );
 }
