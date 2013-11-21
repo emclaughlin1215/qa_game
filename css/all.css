@@ -1,9 +1,79 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+@import url(http://fonts.googleapis.com/css?family=Sonsie+One);
 
 .game {
-  background: #fb887c !important;
+  position: relative;
   color: #fff;
   font-family: 'Lato', Arial, sans-serif;
+  width: 100%;
+  max-width: 960px;
+  height: 600px;
+  background: url(/sites/all/modules/qa_game/img/bg-intro.jpg) no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.game-list {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: rgba(0,0,0, 0.8);
+  width: 500px;
+  height: 300px;
+  margin-left: -250px;
+  margin-top: -150px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.game-list-title {
+  font-family: 'Sonsie One', cursive;
+  color: #D72700;
+  font-size: 26px;
+}
+
+.game-nodes {
+  list-style: none;
+  font-size: 18px;
+  font-weight: 100;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.game-nodes li {
+  width: 300px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: background 0.2s;
+}
+
+.game-nodes li.selected {
+ background-color: #227A02;
+}
+
+.game-nodes li:hover {
+  cursor: pointer;
+}
+
+.game-start {
+  position: absolute;
+  bottom: 40px;
+  border: 1px solid red;
+  width: 130px;
+  color: #fff;
+  left: 50%;
+  margin-left: -65px;
+}
+
+.game-start:hover {
+  cursor: pointer;
+}
+
+.game-start.disabled {
+  color: #ccc;
 }
 
 a {
