@@ -5,3 +5,82 @@
  */
 function qa_game_init() {
 }
+
+/**
+ * Implements hook_permission().
+ */
+function qa_game_permission() {
+  return array(
+    'play qa game' => array(
+      'title' => t('Play the QA Game'),
+      'description' => t('Modify and play the QA game for projects they are on.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function qa_game_menu() {
+  return array(
+    'qa-game' => array(
+      'type' => MENU_CALLBACK,
+      'title' => 'QA Game',
+      'page callback' => 'qa_game_choose_game',
+      'access arguments' => array('play qa game'),
+    ),
+  );
+}
+
+/**
+ * Helper function to display the choices the user has for the QA game.
+ */
+function qa_game_choose_game() {
+  global $user;
+
+  $results[] = db_select('field_data_field_qa_game_backend_ninja', 'bn')
+    ->fields('bn', array('entity_id'))
+    ->condition('bn.field_qa_game_backend_ninja_target_id', $user->uid, '=')
+    ->execute();
+  $results[] = db_select('field_data_field_qa_game_creative_wizard', 'cw')
+    ->fields('cw', array('entity_id'))
+    ->condition('cw.field_qa_game_creative_wizard_target_id', $user->uid, '=')
+    ->execute();
+  $results[] = db_select('field_data_field_qa_game_frontend_fighter', 'ff')
+    ->fields('ff', array('entity_id'))
+    ->condition('ff.field_qa_game_frontend_fighter_target_id', $user->uid, '=')
+    ->execute();
+  $results[] = db_select('field_data_field_qa_game_marketing_plumber', 'mp')
+    ->fields('mp', array('entity_id'))
+    ->condition('mp.field_qa_game_marketing_plumber_target_id', $user->uid, '=')
+    ->execute();
+  $results[] = db_select('field_data_field_qa_game_princess_cs', 'pc')
+    ->fields('pc', array('entity_id'))
+    ->condition('pc.field_qa_game_princess_cs_target_id', $user->uid, '=')
+    ->execute();
+
+  $nodes = array();
+  foreach ($results as $result) {
+    if ($result->rowCount() > 0) {
+      foreach ($result as $row) {
+        $nodes[] = node_load($row->entity_id);
+      }
+    }
+  }
+
+  return theme('game_intro', array('nodes' => $nodes));
+}
+
+/**
+ * Implements hook_theme().
+ */
+function qa_game_theme() {
+  return array(
+    'game_intro' => array(
+      'template' => 'templates/game_intro',
+      'variables' => array(
+        'nodes' => NULL,
+      )
+    ),
+  );
+}
