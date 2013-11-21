@@ -5,6 +5,7 @@
  */
 function qa_game_init() {
   drupal_add_js(drupal_get_path('module', 'qa_game') . '/js/all.js');
+  drupal_add_css(drupal_get_path('module', 'qa_game') . '/css/all.css');
 }
 
 /**
