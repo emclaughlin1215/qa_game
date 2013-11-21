@@ -1,0 +1,6 @@
+name = QA Game
+description = Gamifying the QA process.
+version = VERSION
+core = 7.x
+package = Quality Assurance
+

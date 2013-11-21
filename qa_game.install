@@ -1,0 +1,153 @@
+<?php
+/**
+ * @file
+ * Installs and uninstalls a bunch of things.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function qa_game_install() {
+  // Create the different content types for this module.
+  qa_game_create_content_types();
+
+//  $instance = field_read_instance('node', 'title', 'game');
+//  $instance['label']="Project Name";
+//  field_update_instance($instance);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function qa_game_uninstall() {
+    field_delete_field('qa_game_account_code');
+    field_delete_field('qa_game_scope_items');
+    field_purge_batch(20);
+    variable_del('qa_game_installed_fields');
+}
+
+/**
+ * Helper function to create content types for the module.
+ */
+function qa_game_create_content_types() {
+  // Insert default pre-defined node types into the database. For a complete
+  // list of available node type attributes, refer to the node type API
+  // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
+  $types = array(
+    array(
+      'type' => 'game',
+      'name' => st('Game'),
+      'base' => 'node_content',
+      'description' => st("Use <em>Game</em> to represent internal or external projects that need to be QAed."),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+      'xmlsitemap' => array('status' => 1),
+    ),
+  );
+
+  foreach ($types as $type) {
+    $type = node_type_set_defaults($type);
+    node_type_save($type);
+  }
+
+  // Default "Basic page" to not be promoted and have comments disabled.
+  variable_set('node_options_page', array('status'));
+  variable_set('comment_page', COMMENT_NODE_HIDDEN);
+
+  // Don't display date and author information for "Basic page" nodes by default.
+  variable_set('node_submitted_page', FALSE);
+
+  // Iterate through our defined fields and create fields/instances.
+  foreach (qa_game_get_fields() as $bundle_name => $bundle) {
+    foreach ($bundle as $name => $field) {
+      $field['field_name'] = $name;
+      $field['bundle'] = $bundle_name;
+      qa_game_create_content_field($field['type'], $field);
+      qa_game_create_content_instance($field['type'], $field);
+    }
+  }
+}
+
+/**
+ * Helper function to define our fields.
+ */
+function qa_game_get_fields() {
+  return array(
+    'project' => array(
+      'field_qa_game_account_code' => array(
+        'type' => 'text',
+        'label' => 'Account Code',
+        'description' => 'The account name or short identifying account code.',
+        'cardinality' => 1
+      ),
+      'field_qa_game_scope_items' => array(
+        'type' => 'text',
+        'label' => 'In-Scope Items',
+        'description' => 'Any items that are within the project scope that need to be tested.',
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      ),
+      //TODO: Add user reference field programmatically.
+    ),
+  );
+}
+
+/**
+ * Helper function to create fields from our config.
+ */
+function qa_game_create_content_field($type, $field) {
+  $fields = variable_get('qa_game_installed_fields', array());
+
+  if (in_array($field['field_name'], $fields)) {
+    // We don't want to recreate shared fields.
+    return;
+  }
+
+  $field += array(
+    'locked' => FALSE,
+    'storage' => array(
+      'type' => 'field_sql_storage',
+      'settings' => array(),
+    ),
+  );
+
+  switch ($type) {
+    case 'text':
+      $field += array(
+      );
+      break;
+  }
+
+  field_create_field($field);
+  $fields[] = $field['field_name'];
+  variable_set('qa_game_installed_fields', $fields);
+}
+
+/**
+ * Helper function to create instances from our config.
+ */
+function qa_game_create_content_instance($type, $instance) {
+
+  if (!isset($instance['bundle'])) {
+    return;
+  }
+
+  $instance += array(
+    'entity_type' => 'node',
+    'cardinality' => 1,
+  );
+
+  switch ($type) {
+    case 'text':
+      $instance += array(
+        'widget'      => array(
+          'type'       => 'text_textfield',
+          'settings'   => array('size' => 60),
+        ),
+      );
+      break;
+  }
+
+  field_create_instance($instance);
+
+}

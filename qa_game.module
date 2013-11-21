@@ -1,0 +1,7 @@
+<?php
+
+/**
+ * Implements hook_init().
+ */
+function qa_game_init() {
+}
