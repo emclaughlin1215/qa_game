@@ -1,10 +1,16 @@
 <div class="game-play">
-  <h1 class="gam-level-name"><?= $class ?></h1>
-  <ul class="game-form">
-    <?php foreach ($node->field_qa_game_scope_items['und'] as $item) : ?>
-      <li class="game-option"><input class="scope-item" type="checkbox" name="scope_item" value="<?= $item['value'] ?>"> <?= $item['value'] ?></li>
-    <?php endforeach; ?>
-  </ul>
+  <form class="ac-custom ac-checkbox ac-checkmark" autocomplete="off">
+    <h1 class="gam-level-name"><?= $class ?></h1>
+    <ul class="game-form">
+      <?php $num = 1; ?>
+      <?php foreach ($node->field_qa_game_scope_items['und'] as $item) : ?>
+        <li class="game-option">
+          <input class="scope-item" id="scope-item<?= $num ?>" type="checkbox" name="scope-item<?= $num ?>" value="<?= $item['value'] ?>"><label for="scope-item<?= $num ?>"><?= $item['value'] ?></label>
+        </li>
+        <?php $num++; ?>
+      <?php endforeach; ?>
+    </ul>
+  </form>
   <div class="game-area">
 
   </div>
